@@ -1,0 +1,4 @@
+engineering , true - alu
+---- - steel
+
+remove values where true stress strain decreases

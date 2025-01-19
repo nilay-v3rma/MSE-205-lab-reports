@@ -119,14 +119,20 @@ plt.close()
 data_aluminum['True Stress (MPa)'] = data_aluminum['Stress (MPa)'] * (1 + data_aluminum['Strain'])
 data_aluminum['True Strain'] = np.log(1 + data_aluminum['Strain'])
 
+# Clean True Stress: Remove decreasing values
+true_stress_aluminum = data_aluminum['True Stress (MPa)'].copy()
+max_index = true_stress_aluminum.idxmax()  # Find the index of maximum True Stress
+true_stress_aluminum.iloc[max_index + 1:] = np.nan  # Remove all values after the maximum index
+data_aluminum['Corrected True Stress (MPa)'] = true_stress_aluminum
+
 # Convert the engineering yield strain to true strain
-yield_true_strain = np.log(1 + yield_strain)
+yield_true_strain = np.log(1 + yield_strain)  # Assuming yield_strain is defined
 
 # Filter for plastic region (true strain beyond the yield point)
-plastic_region = data_aluminum[data_aluminum['True Strain'] > yield_true_strain]
+plastic_region = data_aluminum[data_aluminum['True Strain'] > yield_true_strain].dropna()
 
 # Apply logarithmic transformation for Ludwik-Hollomon relation
-log_true_stress = np.log(plastic_region['True Stress (MPa)'])
+log_true_stress = np.log(plastic_region['Corrected True Stress (MPa)'])
 log_true_strain = np.log(plastic_region['True Strain'])
 
 # Linear regression on log-log data
@@ -143,16 +149,16 @@ fitted_true_stress = K * (plastic_region['True Strain'] ** n)
 
 # Plot the plastic region with the fitted curve
 plt.figure(figsize=(10, 8))
-plt.plot(plastic_region['True Strain'], plastic_region['True Stress (MPa)'], 
-         label='Plastic Region (True Stress-Strain)', color='blue')
+plt.plot(data_aluminum['True Strain'], data_aluminum['Corrected True Stress (MPa)'], 
+         label='True Stress-Strain Curve', color='blue')
 plt.plot(plastic_region['True Strain'], fitted_true_stress, 
          '--', label=f'Fitted Curve: $σ = {K:.2f} ε^{n:.2f}$', color='red')
-plt.scatter(plastic_region['True Strain'], plastic_region['True Stress (MPa)'], 
-            color='green', s=10, label='True Data Points')
+plt.scatter(plastic_region['True Strain'], plastic_region['Corrected True Stress (MPa)'], 
+            color='green', s=10, label='Plastic Region Data Points')
 
 plt.xlabel('True Strain')
 plt.ylabel('True Stress (MPa)')
-plt.title('Strain Hardening Fit for Stainless Steel')
+plt.title('Strain Hardening Fit for Aluminum')
 plt.legend()
 plt.grid(True)
 plt.savefig('images/aluminum/strain_hardening_fit_aluminum.png')

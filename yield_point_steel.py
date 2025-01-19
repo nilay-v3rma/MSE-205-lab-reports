@@ -119,14 +119,20 @@ plt.close()
 data_steel['True Stress (MPa)'] = data_steel['Stress (MPa)'] * (1 + data_steel['Strain'])
 data_steel['True Strain'] = np.log(1 + data_steel['Strain'])
 
+# Clean True Stress: Remove decreasing values
+true_stress_steel = data_steel['True Stress (MPa)'].copy()
+max_index = true_stress_steel.idxmax()  # Find the index of maximum True Stress
+true_stress_steel.iloc[max_index + 1:] = np.nan  # Remove all values after the maximum index
+data_steel['Corrected True Stress (MPa)'] = true_stress_steel
+
 # Convert the engineering yield strain to true strain
-yield_true_strain = np.log(1 + yield_strain)
+yield_true_strain = np.log(1 + yield_strain)  # Assuming yield_strain is defined
 
 # Filter for plastic region (true strain beyond the yield point)
-plastic_region = data_steel[data_steel['True Strain'] > yield_true_strain]
+plastic_region = data_steel[data_steel['True Strain'] > yield_true_strain].dropna()
 
 # Apply logarithmic transformation for Ludwik-Hollomon relation
-log_true_stress = np.log(plastic_region['True Stress (MPa)'])
+log_true_stress = np.log(plastic_region['Corrected True Stress (MPa)'])
 log_true_strain = np.log(plastic_region['True Strain'])
 
 # Linear regression on log-log data
@@ -143,18 +149,16 @@ fitted_true_stress = K * (plastic_region['True Strain'] ** n)
 
 # Plot the plastic region with the fitted curve
 plt.figure(figsize=(10, 8))
-plt.plot(plastic_region['True Strain'], plastic_region['True Stress (MPa)'], 
-         label='Plastic Region (True Stress-Strain)', color='blue')
+plt.plot(data_steel['True Strain'], data_steel['Corrected True Stress (MPa)'], 
+         label='True Stress-Strain Curve (Corrected)', color='blue')
 plt.plot(plastic_region['True Strain'], fitted_true_stress, 
          '--', label=f'Fitted Curve: $σ = {K:.2f} ε^{n:.2f}$', color='red')
-plt.scatter(plastic_region['True Strain'], plastic_region['True Stress (MPa)'], 
-            color='green', s=10, label='True Data Points')
+plt.scatter(plastic_region['True Strain'], plastic_region['Corrected True Stress (MPa)'], 
+            color='green', s=10, label='Plastic Region Data Points')
 
 plt.xlabel('True Strain')
 plt.ylabel('True Stress (MPa)')
-plt.title('Strain Hardening Fit for Stainless Steel')
+plt.title('Strain Hardening Fit for Steel')
 plt.legend()
 plt.grid(True)
 plt.savefig('images/steel/strain_hardening_fit_steel.png')
-plt.close()
-print("-------------------------------------")
