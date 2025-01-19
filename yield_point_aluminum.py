@@ -9,6 +9,7 @@ L0 = 83
 t = 3.36  
 w = 12.87  
 A0 = t * w  
+print("---------------Aluminum-----------------")
 
 # Read and process data (same as before)
 file_path_aluminum = 'MSE205_Aluminum.csv'
@@ -113,3 +114,46 @@ plt.legend()
 plt.grid(True)
 plt.savefig('images/aluminum/yield_and_uts_point_aluminum.png')
 plt.close()
+
+# Convert to true stress and true strain
+data_aluminum['True Stress (MPa)'] = data_aluminum['Stress (MPa)'] * (1 + data_aluminum['Strain'])
+data_aluminum['True Strain'] = np.log(1 + data_aluminum['Strain'])
+
+# Convert the engineering yield strain to true strain
+yield_true_strain = np.log(1 + yield_strain)
+
+# Filter for plastic region (true strain beyond the yield point)
+plastic_region = data_aluminum[data_aluminum['True Strain'] > yield_true_strain]
+
+# Apply logarithmic transformation for Ludwik-Hollomon relation
+log_true_stress = np.log(plastic_region['True Stress (MPa)'])
+log_true_strain = np.log(plastic_region['True Strain'])
+
+# Linear regression on log-log data
+coeffs = np.polyfit(log_true_strain, log_true_stress, 1)
+n = coeffs[0]  # Strain hardening exponent (slope)
+ln_K = coeffs[1]  # ln(K)
+K = np.exp(ln_K)  # Strain hardening coefficient
+
+print(f"Strain Hardening Coefficient (K): {K:.2f} MPa")
+print(f"Strain Hardening Exponent (n): {n:.2f}")
+
+# Generate fitted stress values using Ludwik-Hollomon relation
+fitted_true_stress = K * (plastic_region['True Strain'] ** n)
+
+# Plot the plastic region with the fitted curve
+plt.figure(figsize=(10, 8))
+plt.plot(plastic_region['True Strain'], plastic_region['True Stress (MPa)'], 
+         label='Plastic Region (True Stress-Strain)', color='blue')
+plt.plot(plastic_region['True Strain'], fitted_true_stress, 
+         '--', label=f'Fitted Curve: $σ = {K:.2f} ε^{n:.2f}$', color='red')
+plt.scatter(plastic_region['True Strain'], plastic_region['True Stress (MPa)'], 
+            color='green', s=10, label='True Data Points')
+
+plt.xlabel('True Strain')
+plt.ylabel('True Stress (MPa)')
+plt.title('Strain Hardening Fit for Stainless Steel')
+plt.legend()
+plt.grid(True)
+plt.savefig('images/aluminum/strain_hardening_fit_aluminum.png')
+print("-------------------------------------")
