@@ -77,10 +77,10 @@ plt.legend()
 plt.grid()
 plt.savefig('images/engineering_stress_strain_gripgrip.png')
 
-#mix engineering true stress strain
+#mix true stress strain
 plt.figure(figsize=(8, 6))
-plt.plot(data_aluminum['Strain'], data_aluminum['True Stress (MPa)'], label='Aluminum', color='blue')
-plt.plot(data_steel['Strain'], data_steel['True Stress (MPa)'], label='Stainless Steel', color='green')
+plt.plot(data_aluminum['Strain'], data_aluminum['Corrected True Stress (MPa)'], label='Aluminum', color='blue')
+plt.plot(data_steel['Strain'], data_steel['Corrected True Stress (MPa)'], label='Stainless Steel', color='green')
 plt.xlabel('Strain')
 plt.ylabel('True Stress (MPa)')
 plt.title('True Stress-Strain Curve')
@@ -88,10 +88,10 @@ plt.legend()
 plt.grid()
 plt.savefig('images/true_stress_strain.png')
 
-#mix engineering true stress strain using gripgrip
+#mix true stress strain using gripgrip
 plt.figure(figsize=(8, 6))
-plt.plot(data_aluminum['Strain2'], data_aluminum['True Stress (MPa)'], label='Aluminum', color='blue')
-plt.plot(data_steel['Strain2'], data_steel['True Stress (MPa)'], label='Stainless Steel', color='green')
+plt.plot(data_aluminum['Strain2'], data_aluminum['Corrected True Stress (MPa)'], label='Aluminum', color='blue')
+plt.plot(data_steel['Strain2'], data_steel['Corrected True Stress (MPa)'], label='Stainless Steel', color='green')
 plt.xlabel('Strain')
 plt.ylabel('True Stress (MPa)')
 plt.title('True Stress-Strain Curve using grip to grip seperation')
