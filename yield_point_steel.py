@@ -126,7 +126,7 @@ true_stress_steel.iloc[max_index + 1:] = np.nan  # Remove all values after the m
 data_steel['Corrected True Stress (MPa)'] = true_stress_steel
 
 # Convert the engineering yield strain to true strain
-yield_true_strain = np.log(1 + yield_strain)  # Assuming yield_strain is defined
+yield_true_strain = np.log(1 + yield_strain)
 
 # Filter for plastic region (true strain beyond the yield point)
 plastic_region = data_steel[data_steel['True Strain'] > yield_true_strain].dropna()
@@ -162,3 +162,4 @@ plt.title('Strain Hardening Fit for Steel')
 plt.legend()
 plt.grid(True)
 plt.savefig('images/steel/strain_hardening_fit_steel.png')
+print("-------------------------------------")

@@ -80,15 +80,15 @@ yield_strain, yield_stress = find_intersection(
     x_range_full
 )
 
-# Create truncated x_range for plotting offset line
+# Truncated x_range for plotting offset line
 x_range_plot = np.linspace(0.002, yield_strain * 1.1, 1000)  # Extend just 10% past yield point
 
 print(f"Yield point: Stress = {yield_stress:.2f} MPa, Strain = {yield_strain:.5f}")
 
 # Calculate Ultimate Tensile Strength (UTS)
 max_stress_idx = np.argmax(stress_data)
-uts_stress = stress_data[max_stress_idx]
-uts_strain = strain_data[max_stress_idx]
+uts_stress = stress_data[max_stress_idx+23] # +23 to avoid selecting fluctuations
+uts_strain = strain_data[max_stress_idx+23] # +23 to avoid selecting fluctuations
 
 print(f"Ultimate Tensile Strength (UTS): {uts_stress:.2f} MPa")
 print(f"Uniform Elongation: {uts_strain}")
@@ -126,7 +126,7 @@ true_stress_aluminum.iloc[max_index + 1:] = np.nan  # Remove all values after th
 data_aluminum['Corrected True Stress (MPa)'] = true_stress_aluminum
 
 # Convert the engineering yield strain to true strain
-yield_true_strain = np.log(1 + yield_strain)  # Assuming yield_strain is defined
+yield_true_strain = np.log(1 + yield_strain)
 
 # Filter for plastic region (true strain beyond the yield point)
 plastic_region = data_aluminum[data_aluminum['True Strain'] > yield_true_strain].dropna()
