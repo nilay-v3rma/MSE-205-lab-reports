@@ -1,0 +1,9 @@
+---------------Aluminum-----------------
+Elastic Modulus: 20840.75 MPa
+Yield point: Stress = 345.01 MPa, Strain = 0.02509
+Ultimate Tensile Strength (UTS): 383.15 MPa
+Uniform Elongation: 0.0504
+Max stress index: 8807
+Strain Hardening Coefficient (K): 699.22 MPa
+Strain Hardening Exponent (n): 0.18
+-------------------------------------
