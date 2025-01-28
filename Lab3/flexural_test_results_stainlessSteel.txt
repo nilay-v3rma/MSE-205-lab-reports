@@ -1,8 +1,0 @@
-Flexural Test Results for Aluminum
-------------------------------------------------
-Parameter                      |           Value
-------------------------------------------------
-Max Flexural Stress (MPa)      |          682.73
-Failure Strain                 |         0.03331
-Flexural Modulus (MPa)         |      144,901.18
-------------------------------------------------

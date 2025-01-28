@@ -1,8 +1,8 @@
 import csv
 
 # File paths
-input_file = 'Flexure_Al.TRA'  # Replace with the full path to your .TRA file
-output_file = 'Flexure_Al_csv.csv'
+input_file = 'Data/Flexure_Al.TRA'  # Replace with the full path to your .TRA file
+output_file = 'Data/Flexure_Al_csv.csv'
 
 # Read the .TRA file
 with open(input_file, 'r') as file:
@@ -23,8 +23,8 @@ with open(output_file, 'w', newline='') as csvfile:
 print(f"Data has been successfully converted to {output_file}")
 
 # File paths
-input_file = 'Flexure_SS.TRA'  # Replace with the full path to your .TRA file
-output_file = 'Flexure_SS_csv.csv'
+input_file = 'Data/Flexure_SS.TRA'  # Replace with the full path to your .TRA file
+output_file = 'Data/Flexure_SS_csv.csv'
 
 # Read the .TRA file
 with open(input_file, 'r') as file:

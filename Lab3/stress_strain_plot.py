@@ -9,7 +9,7 @@ thickness = 3     # in mm
 
 #-------------------- Aluminum ----------------------#
 # Read the CSV file
-file_path_aluminum = 'Flexure_Al_csv.csv'
+file_path_aluminum = 'Data/Flexure_Al_csv.csv'
 data_aluminum = pd.read_csv(file_path_aluminum)
 
 # Clean the data
@@ -58,7 +58,7 @@ with open(file_path, 'w') as file:
     
     file.write("-" * 48 + "\n")
 
-print(f"Results saved to {file_path}")
+print(f"Results saved to - {file_path}")
 
 
 #-------------------- Plot ----------------------#
@@ -88,10 +88,11 @@ plt.ylabel('Flexural Stress (MPa)', fontsize=12)
 plt.legend(fontsize=10)
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.savefig('images/aluminum/FlexuralStress_FlexuralStrain_Aluminum.png', dpi=300, bbox_inches='tight')
+print(f"Plot image saved to - images/aluminum/FlexuralStress_FlexuralStrain_Aluminum.png")
 
 #-------------------- Stainless Steel ----------------------#
 # Read the CSV file
-file_path_steel = 'Flexure_SS_csv.csv'
+file_path_steel = 'Data/Flexure_SS_csv.csv'
 data_steel = pd.read_csv(file_path_steel)
 
 # Clean the data
@@ -140,7 +141,7 @@ with open(file_path, 'w') as file:
     
     file.write("-" * 48 + "\n")
 
-print(f"Results saved to {file_path}")
+print(f"Results saved to - {file_path}")
 
 #-------------------- Plot ----------------------#
 plt.figure(figsize=(10, 6))
@@ -169,6 +170,8 @@ plt.ylabel('Flexural Stress (MPa)', fontsize=12)
 plt.legend(fontsize=10)
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.savefig('images/steel/FlexuralStress_FlexuralStrain_Stainless Steel.png', dpi=300, bbox_inches='tight')
+print(f"Plot image saved to - images/steel/FlexuralStress_FlexuralStrain_Stainless Steel.png")
+
 
 #-------------------- Common Plot ----------------------#
 plt.figure(figsize=(10, 6))
@@ -184,3 +187,4 @@ plt.ylabel('Flexural Stress (MPa)', fontsize=12)
 plt.legend(fontsize=10)
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.savefig('images/FlexuralStress_FlexuralStrain.png', dpi=300, bbox_inches='tight')
+print(f"Common plot image saved to - images/FlexuralStress_FlexuralStrain.png")
