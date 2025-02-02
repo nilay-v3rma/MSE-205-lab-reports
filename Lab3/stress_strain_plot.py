@@ -16,10 +16,21 @@ data_aluminum = pd.read_csv(file_path_aluminum)
 data_aluminum.columns = data_aluminum.columns.str.strip()  # Remove trailing white spaces
 data_aluminum = data_aluminum[data_aluminum['Deformation'] >= 0]  # Ensure non-negative deformation values
 
-# Flexural Stress
+# Flexural Stress Calculation
+# Formula: σ_f = (3 * F * L) / (2 * b * d^2)
+# where:
+# F = Standard force (applied load)
+# L = Span length (distance between support points)
+# b = Width of the test specimen
+# d = Thickness of the test specimen
 data_aluminum['Flexure Stress'] = (3 * data_aluminum['Standard force'] * span_length) / (2 * width * thickness**2)
 
-# Flexural Strain
+# Flexural Strain Calculation
+# Formula: ε_f = (6 * d * D) / (L^2)
+# where:
+# D = Deformation (deflection or displacement)
+# d = Thickness of the test specimen
+# L = Span length (distance between support points)
 data_aluminum['Flexure Strain'] = (6 * thickness * data_aluminum['Deformation']) / (span_length**2)
 
 # index of the maximum flexural stress
